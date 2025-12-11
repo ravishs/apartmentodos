@@ -17,7 +17,11 @@ export const metadata = {
   title: 'Mahaveer Sitara',
   description: 'Manage apartment tasks and residents',
   icons: {
-    icon: '/favicon.png',
+    icon: [
+      { url: '/favicon.png', sizes: 'any' },
+      { url: '/logo.png', sizes: '192x192', type: 'image/png' },
+    ],
+    apple: '/logo.png',
   },
 };
 
