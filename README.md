@@ -1,6 +1,6 @@
 # 🏢 SITARA - Apartment Management System
 
-A modern, full-featured apartment community management application built with Next.js and Supabase. Designed for **Mahaveer Sitara** apartment complex to streamline resident management, track maintenance requests, and manage community wishlists.
+A modern, full-featured apartment community management application built with Next.js and Supabase. Designed for **Mahaveer Sitara** apartment complex to streamline resident management, track maintenance requests, and manage community wishlists!
 
 ![Next.js](https://img.shields.io/badge/Next.js-14-black)
 ![React](https://img.shields.io/badge/React-18-blue)
