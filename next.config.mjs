@@ -2,6 +2,8 @@
 const nextConfig = {
   /* config options here */
   reactCompiler: true,
+  experimental: {
+  },
 };
 
 export default nextConfig;
