@@ -3,6 +3,7 @@
 import { login } from './actions'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { useSearchParams } from 'next/navigation'
 import {
   Box,
@@ -22,6 +23,7 @@ export default function LoginClient() {
   }, [])
 
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
 
   // Prefer a descriptive error if provided in the URL (error_description or message).
   const searchParams = useSearchParams()
@@ -69,9 +71,25 @@ export default function LoginClient() {
     const formData = new FormData(e.currentTarget)
 
     try {
-      await login(formData)
+      const result = await login(formData)
+
+      // result is expected to be { ok: true } or { ok: false, error: '...' }
+      if (result?.ok) {
+        // navigate client-side to the dashboard/home
+        router.push('/')
+        return
+      }
+
+      // Show any server-reported error
+      if (result?.error) {
+        setError(result.error)
+      } else {
+        setError('An unknown error occurred during login.')
+      }
+      setLoading(false)
     } catch (err) {
-      setError(err.message)
+      // Unexpected errors
+      setError(err?.message || String(err))
       setLoading(false)
     }
   }

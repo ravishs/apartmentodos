@@ -1,7 +1,6 @@
 'use server'
 
 import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
 import { createClient } from '@/utils/supabase/server'
 
 export async function signout() {
@@ -22,15 +21,17 @@ export async function login(formData) {
     const { data: { user }, error } = await supabase.auth.signInWithPassword(data)
 
     if (error) {
-        redirect('/?error=' + encodeURIComponent(error.message))
+        // Return structured error to the client so the client can handle navigation cleanly
+        return { ok: false, error: error.message }
     }
 
     // Check if user is approved
     if (user?.user_metadata?.status === 'pending') {
         await supabase.auth.signOut()
-        redirect('/?error=' + encodeURIComponent('Your account is pending approval by an administrator.'))
+        return { ok: false, error: 'Your account is pending approval by an administrator.' }
     }
 
+    // Revalidate server cache for layout and return success so client can navigate
     revalidatePath('/', 'layout')
-    redirect('/')
+    return { ok: true }
 }
