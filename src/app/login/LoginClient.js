@@ -94,16 +94,31 @@ export default function LoginClient() {
     }
   }
 
+
+
   return (
-    <Box sx={{
-      backgroundImage: "url('/bg.jpg')",
-      backgroundSize: 'cover',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      minHeight: '100vh'
-    }}>
-      <AuthHeader />
-      <Container component="main" maxWidth="xs">
+    <Box sx={{ position: 'relative', minHeight: '100vh' }}>
+      {/* Blurred background layer */}
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: "url('/bg.jpg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          filter: 'blur(3px)',
+          zIndex: -1,
+        }}
+      />
+
+      {/* Content layer */}
+      <Box sx={{ position: 'relative', zIndex: 1 }}>
+        <AuthHeader />
+        <Container component="main" maxWidth="xs">
         <Box
           sx={{
             marginTop: { xs: 4, sm: 8 },
@@ -171,8 +186,10 @@ export default function LoginClient() {
               </Typography>
             </Box>
           </Paper>
+
         </Box>
-      </Container>
+        </Container>
+      </Box>
     </Box>
   )
 }
