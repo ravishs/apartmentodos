@@ -8,6 +8,10 @@ const theme = createTheme({
     palette: {
         mode: 'light',
     },
+    typography: {
+        // Use the Poppins variable defined by next/font in the global layout
+        fontFamily: "var(--font-poppins), Arial, Helvetica, sans-serif",
+    },
 });
 
 export default function ThemeRegistry({ children }) {

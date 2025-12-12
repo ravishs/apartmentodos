@@ -10,7 +10,6 @@ export async function addWishlistItem(formData) {
     const description = formData.get('description') || ''
     const area = formData.get('area')
     const isUrgent = formData.get('isUrgent') === 'on' ? true : false
-    const comments = formData.get('comments') || ''
 
     const { data: { user } } = await supabase.auth.getUser()
 
@@ -25,7 +24,6 @@ export async function addWishlistItem(formData) {
             description,
             area,
             is_urgent: isUrgent,
-            comments,
             user_id: user.id,
             created_by: user.id,
             last_edited_by: user.id
@@ -47,7 +45,6 @@ export async function updateWishlistItem(formData) {
     const description = formData.get('description')
     const area = formData.get('area')
     const isUrgent = formData.get('isUrgent') === 'on' ? true : false
-    const comments = formData.get('comments')
 
     const { data: { user } } = await supabase.auth.getUser()
 
@@ -62,7 +59,6 @@ export async function updateWishlistItem(formData) {
             description,
             area,
             is_urgent: isUrgent,
-            comments,
             updated_at: new Date().toISOString(),
             last_edited_by: user.id
         })

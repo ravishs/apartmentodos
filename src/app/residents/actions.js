@@ -48,6 +48,7 @@ export async function updateUser(formData) {
     const mobile = formData.get('mobile')
     const apartmentNumber = formData.get('apartmentNumber')
     const role = formData.get('role')
+    const status = formData.get('status')
 
     // Optional password update
     const password = formData.get('password')
@@ -64,6 +65,7 @@ export async function updateUser(formData) {
             mobile: mobile,
             apartment_number: apartmentNumber,
             role: role,
+            status: status,
         }
     }
 

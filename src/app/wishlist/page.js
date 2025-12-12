@@ -1,3 +1,7 @@
+export const metadata = {
+    title: "Wishlist | Mahaveer Sitara Owner's Welfare Association",
+}
+
 import DashboardLayout from '@/components/Dashboard/DashboardLayout'
 import WishlistTable from '@/components/Wishlist/WishlistTable'
 import { createClient } from '@/utils/supabase/server'

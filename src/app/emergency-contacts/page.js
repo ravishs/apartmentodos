@@ -1,3 +1,7 @@
+export const metadata = {
+    title: "Emergency Contacts | Mahaveer Sitara Owner's Welfare Association",
+}
+
 import DashboardLayout from '@/components/Dashboard/DashboardLayout'
 import EmergencyContactsForm from '@/components/EmergencyContacts/EmergencyContactsForm'
 import { createClient } from '@/utils/supabase/server'

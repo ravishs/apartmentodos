@@ -1,6 +1,9 @@
 
+'use client'
+
 import { signup } from './actions'
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
 import {
     Box,
     Button,
@@ -9,17 +12,42 @@ import {
     Typography,
     Paper,
     Alert,
+    CircularProgress,
 } from '@mui/material'
 import AuthHeader from '@/components/AuthHeader/AuthHeader'
 
-export default async function SignupPage(props) {
-    const searchParams = await props.searchParams
-    const error = searchParams?.error
-    const success = searchParams?.success
+export default function SignupPage(props) {
+    useEffect(() => {
+        document.title = "Signup | Mahaveer Sitara Owner's Welfare Association"
+    }, [])
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(props?.searchParams?.error || null)
+    const [success, setSuccess] = useState(props?.searchParams?.success || false)
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        setLoading(true)
+        setError(null)
+        const formData = new FormData(e.currentTarget)
+        
+        try {
+            await signup(formData)
+            setSuccess(true)
+        } catch (err) {
+            setError(err.message)
+            setLoading(false)
+        }
+    }
 
     if (success) {
         return (
-            <Box>
+            <Box sx={{
+                backgroundImage: "url('/bg.jpg')",
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+                minHeight: '100vh'
+            }}>
                 <AuthHeader />
                 <Container component="main" maxWidth="sm">
                     <Box
@@ -31,7 +59,7 @@ export default async function SignupPage(props) {
                             alignItems: 'center',
                         }}
                     >
-                        <Paper elevation={3} sx={{ p: 4, width: '100%', borderRadius: 2, bgcolor: 'action.hover', textAlign: 'center' }}>
+                        <Paper elevation={3} sx={{ p: 4, width: '100%', borderRadius: 2, bgcolor: 'rgba(255,255,255,0.9)', textAlign: 'center' }}>
                             <Typography variant="h5" color="primary" gutterBottom>
                                 Registration Successful
                             </Typography>
@@ -53,7 +81,13 @@ export default async function SignupPage(props) {
     }
 
     return (
-        <Box>
+        <Box sx={{
+            backgroundImage: "url('/bg.jpg')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            minHeight: '100vh'
+        }}>
             <AuthHeader />
             <Container component="main" maxWidth="xs">
                 <Box
@@ -65,7 +99,7 @@ export default async function SignupPage(props) {
                         alignItems: 'center',
                     }}
                 >
-                    <Paper elevation={3} sx={{ p: 4, width: '100%', borderRadius: 2 }}>
+                    <Paper elevation={3} sx={{ p: 4, width: '100%', borderRadius: 2, bgcolor: 'rgba(255,255,255,0.9)' }}>
                         <Typography component="h1" variant="h5" align="center" gutterBottom>
                             Sign Up
                         </Typography>
@@ -76,7 +110,7 @@ export default async function SignupPage(props) {
                             </Alert>
                         )}
 
-                        <form action={signup} style={{ width: '100%' }}>
+                        <form onSubmit={handleSubmit} style={{ width: '100%' }}>
                             <TextField
                                 margin="normal"
                                 required
@@ -85,6 +119,7 @@ export default async function SignupPage(props) {
                                 label="Full Name"
                                 name="fullName"
                                 autoFocus
+                                disabled={loading}
                                 InputProps={{
                                     suppressHydrationWarning: true
                                 }}
@@ -97,6 +132,7 @@ export default async function SignupPage(props) {
                                 label="Email Address"
                                 name="email"
                                 type="email"
+                                disabled={loading}
                                 InputProps={{
                                     suppressHydrationWarning: true
                                 }}
@@ -109,6 +145,7 @@ export default async function SignupPage(props) {
                                 label="Mobile Number"
                                 name="mobile"
                                 type="tel"
+                                disabled={loading}
                                 InputProps={{
                                     suppressHydrationWarning: true
                                 }}
@@ -120,6 +157,7 @@ export default async function SignupPage(props) {
                                 id="apartmentNumber"
                                 label="Apartment Number"
                                 name="apartmentNumber"
+                                disabled={loading}
                                 InputProps={{
                                     suppressHydrationWarning: true
                                 }}
@@ -132,6 +170,7 @@ export default async function SignupPage(props) {
                                 label="Password"
                                 type="password"
                                 id="password"
+                                disabled={loading}
                                 InputProps={{
                                     suppressHydrationWarning: true
                                 }}
@@ -144,6 +183,7 @@ export default async function SignupPage(props) {
                                 label="Re-enter Password"
                                 type="password"
                                 id="confirmPassword"
+                                disabled={loading}
                                 InputProps={{
                                     suppressHydrationWarning: true
                                 }}
@@ -154,8 +194,10 @@ export default async function SignupPage(props) {
                                 fullWidth
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2, bgcolor: 'primary.main', height: 48 }}
+                                disabled={loading}
+                                startIcon={loading ? <CircularProgress size={20} /> : null}
                             >
-                                Sign up
+                                {loading ? 'Signing up...' : 'Sign up'}
                             </Button>
                         </form>
 

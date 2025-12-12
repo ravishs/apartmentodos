@@ -30,7 +30,8 @@ import {
     Tooltip,
     Avatar,
     Tabs,
-    Tab
+    Tab,
+    CircularProgress,
 } from '@mui/material'
 import {
     Add as AddIcon,
@@ -194,7 +195,6 @@ export default function WishlistTable({ initialItems = [], currentUserId, curren
                             <TableCell>Area</TableCell>
                             <TableCell>Urgent</TableCell>
                             <TableCell>Status</TableCell>
-                            <TableCell>Comments</TableCell>
                             <TableCell>Updated By</TableCell>
                             <TableCell align="right">Actions</TableCell>
                         </TableRow>
@@ -231,7 +231,6 @@ export default function WishlistTable({ initialItems = [], currentUserId, curren
                                                     formData.append('description', item.description || '')
                                                     formData.append('area', item.area || '')
                                                     formData.append('isUrgent', item.is_urgent ? 'on' : '')
-                                                    formData.append('comments', item.comments || '')
                                                     const result = await updateWishlistItem(formData)
                                                     if (result.error) {
                                                         showToast(result.error, 'error')
@@ -258,7 +257,6 @@ export default function WishlistTable({ initialItems = [], currentUserId, curren
                                         />
                                     )}
                                 </TableCell>
-                                <TableCell>{item.comments}</TableCell>
                                 <TableCell>
                                     {item.editor ? (
                                         <Tooltip title={`Last edited by: ${item.editor.email}`}>
@@ -274,12 +272,16 @@ export default function WishlistTable({ initialItems = [], currentUserId, curren
                                     )}
                                 </TableCell>
                                 <TableCell align="right">
-                                    <IconButton onClick={() => handleEditClick(item)} color="primary" size="small">
-                                        <EditIcon />
-                                    </IconButton>
-                                    <IconButton onClick={() => handleDeleteClick(item)} color="error" size="small">
-                                        <DeleteIcon />
-                                    </IconButton>
+                                    {(isAdmin || item.user_id === currentUserId) && (
+                                        <>
+                                            <IconButton onClick={() => handleEditClick(item)} color="primary" size="small">
+                                                <EditIcon />
+                                            </IconButton>
+                                            <IconButton onClick={() => handleDeleteClick(item)} color="error" size="small">
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </>
+                                    )}
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -346,23 +348,12 @@ export default function WishlistTable({ initialItems = [], currentUserId, curren
                             label="Urgent (Yes/No)"
                             sx={{ mb: 2, display: 'block' }}
                         />
-                        <TextField
-                            margin="dense"
-                            id="comments"
-                            name="comments"
-                            label="Comments"
-                            type="text"
-                            fullWidth
-                            multiline
-                            rows={2}
-                            variant="outlined"
-                            sx={{ mb: 2 }}
-                        />
                     </DialogContent>
                     <DialogActions sx={{ px: 3, pb: 2 }}>
-                        <Button onClick={handleClose} variant="outlined" color="inherit">Cancel</Button>
-                        <Button type="submit" variant="contained" disabled={loading}>
-                            {loading ? 'Adding...' : 'Add Item'}
+                        <Button onClick={handleClose} variant="outlined" color="inherit" disabled={loading}>Cancel</Button>
+                        <Button type="submit" variant="contained" disabled={loading} sx={{ position: 'relative' }}>
+                            {loading && <CircularProgress size={24} sx={{ position: 'absolute', left: 12 }} />}
+                            <span style={{ visibility: loading ? 'hidden' : 'visible' }}>Add Item</span>
                         </Button>
                     </DialogActions>
                 </form>
@@ -422,24 +413,12 @@ export default function WishlistTable({ initialItems = [], currentUserId, curren
                             label="Urgent (Yes/No)"
                             sx={{ mb: 2, display: 'block' }}
                         />
-                        <TextField
-                            margin="dense"
-                            id="comments"
-                            name="comments"
-                            label="Comments"
-                            type="text"
-                            fullWidth
-                            multiline
-                            rows={2}
-                            variant="outlined"
-                            defaultValue={selectedItem?.comments}
-                            sx={{ mb: 2 }}
-                        />
                     </DialogContent>
                     <DialogActions sx={{ px: 3, pb: 2 }}>
-                        <Button onClick={handleEditClose} variant="outlined" color="inherit">Cancel</Button>
-                        <Button type="submit" variant="contained" disabled={loading}>
-                            {loading ? 'Updating...' : 'Update Item'}
+                        <Button onClick={handleEditClose} variant="outlined" color="inherit" disabled={loading}>Cancel</Button>
+                        <Button type="submit" variant="contained" disabled={loading} sx={{ position: 'relative' }}>
+                            {loading && <CircularProgress size={24} sx={{ position: 'absolute', left: 12 }} />}
+                            <span style={{ visibility: loading ? 'hidden' : 'visible' }}>Update Item</span>
                         </Button>
                     </DialogActions>
                 </form>
@@ -454,9 +433,10 @@ export default function WishlistTable({ initialItems = [], currentUserId, curren
                     </Typography>
                 </DialogContent>
                 <DialogActions sx={{ px: 3, pb: 2 }}>
-                    <Button onClick={handleDeleteClose} variant="outlined" color="inherit">Cancel</Button>
-                    <Button onClick={handleDeleteConfirm} variant="contained" color="error" disabled={loading}>
-                        {loading ? 'Deleting...' : 'Delete Item'}
+                    <Button onClick={handleDeleteClose} variant="outlined" color="inherit" disabled={loading}>Cancel</Button>
+                    <Button onClick={handleDeleteConfirm} variant="contained" color="error" disabled={loading} sx={{ position: 'relative' }}>
+                        {loading && <CircularProgress size={24} sx={{ position: 'absolute', left: 12 }} />}
+                        <span style={{ visibility: loading ? 'hidden' : 'visible' }}>Delete Item</span>
                     </Button>
                 </DialogActions>
             </Dialog>

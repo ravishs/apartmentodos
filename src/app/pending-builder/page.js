@@ -1,3 +1,7 @@
+export const metadata = {
+    title: "Pending from Builder | Mahaveer Sitara Owner's Welfare Association",
+}
+
 import DashboardLayout from '@/components/Dashboard/DashboardLayout'
 import PendingBuilderTable from '@/components/PendingBuilder/PendingBuilderTable'
 import { createClient } from '@/utils/supabase/server'

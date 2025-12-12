@@ -20,6 +20,11 @@ create policy "Users can view their own pending tasks"
   on pending_builder_tasks for select
   using (auth.uid() = user_id);
 
+-- Policy: All authenticated users can view all pending tasks
+create policy "Authenticated users can view all pending tasks"
+  on pending_builder_tasks for select
+  using (auth.role() = 'authenticated');
+
 -- Policy: Users can insert their own tasks
 create policy "Users can insert their own pending tasks"
   on pending_builder_tasks for insert

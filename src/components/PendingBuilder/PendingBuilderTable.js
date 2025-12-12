@@ -30,7 +30,8 @@ import {
     Tooltip,
     Avatar,
     Tabs,
-    Tab
+    Tab,
+    CircularProgress,
 } from '@mui/material'
 import {
     Add as AddIcon,
@@ -194,7 +195,6 @@ export default function PendingBuilderTable({ initialTasks = [], currentUserId, 
                             <TableCell>Area</TableCell>
                             <TableCell>Urgent</TableCell>
                             <TableCell>Status</TableCell>
-                            <TableCell>Comments</TableCell>
                             <TableCell>Updated By</TableCell>
                             <TableCell align="right">Actions</TableCell>
                         </TableRow>
@@ -231,7 +231,6 @@ export default function PendingBuilderTable({ initialTasks = [], currentUserId, 
                                                     formData.append('description', task.description || '')
                                                     formData.append('area', task.area || '')
                                                     formData.append('isUrgent', task.is_urgent ? 'on' : '')
-                                                    formData.append('comments', task.comments || '')
                                                     const result = await updatePendingTask(formData)
                                                     if (result.error) {
                                                         showToast(result.error, 'error')
@@ -258,7 +257,6 @@ export default function PendingBuilderTable({ initialTasks = [], currentUserId, 
                                         />
                                     )}
                                 </TableCell>
-                                <TableCell>{task.comments}</TableCell>
                                 <TableCell>
                                     {task.editor ? (
                                         <Tooltip title={`Last edited by: ${task.editor.email}`}>
@@ -274,12 +272,16 @@ export default function PendingBuilderTable({ initialTasks = [], currentUserId, 
                                     )}
                                 </TableCell>
                                 <TableCell align="right">
-                                    <IconButton onClick={() => handleEditClick(task)} color="primary" size="small">
-                                        <EditIcon />
-                                    </IconButton>
-                                    <IconButton onClick={() => handleDeleteClick(task)} color="error" size="small">
-                                        <DeleteIcon />
-                                    </IconButton>
+                                    {(isAdmin || task.user_id === currentUserId) && (
+                                        <>
+                                            <IconButton onClick={() => handleEditClick(task)} color="primary" size="small">
+                                                <EditIcon />
+                                            </IconButton>
+                                            <IconButton onClick={() => handleDeleteClick(task)} color="error" size="small">
+                                                <DeleteIcon />
+                                            </IconButton>
+                                        </>
+                                    )}
                                 </TableCell>
                             </TableRow>
                         ))}
@@ -346,23 +348,12 @@ export default function PendingBuilderTable({ initialTasks = [], currentUserId, 
                             label="Urgent (Yes/No)"
                             sx={{ mb: 2, display: 'block' }}
                         />
-                        <TextField
-                            margin="dense"
-                            id="comments"
-                            name="comments"
-                            label="Comments"
-                            type="text"
-                            fullWidth
-                            multiline
-                            rows={2}
-                            variant="outlined"
-                            sx={{ mb: 2 }}
-                        />
                     </DialogContent>
                     <DialogActions sx={{ px: 3, pb: 2 }}>
-                        <Button onClick={handleClose} variant="outlined" color="inherit">Cancel</Button>
-                        <Button type="submit" variant="contained" disabled={loading}>
-                            {loading ? 'Adding...' : 'Add Task'}
+                        <Button onClick={handleClose} variant="outlined" color="inherit" disabled={loading}>Cancel</Button>
+                        <Button type="submit" variant="contained" disabled={loading} sx={{ position: 'relative' }}>
+                            {loading && <CircularProgress size={24} sx={{ position: 'absolute', left: 12 }} />}
+                            <span style={{ visibility: loading ? 'hidden' : 'visible' }}>Add Task</span>
                         </Button>
                     </DialogActions>
                 </form>
@@ -422,24 +413,12 @@ export default function PendingBuilderTable({ initialTasks = [], currentUserId, 
                             label="Urgent (Yes/No)"
                             sx={{ mb: 2, display: 'block' }}
                         />
-                        <TextField
-                            margin="dense"
-                            id="comments"
-                            name="comments"
-                            label="Comments"
-                            type="text"
-                            fullWidth
-                            multiline
-                            rows={2}
-                            variant="outlined"
-                            defaultValue={selectedTask?.comments}
-                            sx={{ mb: 2 }}
-                        />
                     </DialogContent>
                     <DialogActions sx={{ px: 3, pb: 2 }}>
-                        <Button onClick={handleEditClose} variant="outlined" color="inherit">Cancel</Button>
-                        <Button type="submit" variant="contained" disabled={loading}>
-                            {loading ? 'Updating...' : 'Update Task'}
+                        <Button onClick={handleEditClose} variant="outlined" color="inherit" disabled={loading}>Cancel</Button>
+                        <Button type="submit" variant="contained" disabled={loading} sx={{ position: 'relative' }}>
+                            {loading && <CircularProgress size={24} sx={{ position: 'absolute', left: 12 }} />}
+                            <span style={{ visibility: loading ? 'hidden' : 'visible' }}>Update Task</span>
                         </Button>
                     </DialogActions>
                 </form>
@@ -454,25 +433,28 @@ export default function PendingBuilderTable({ initialTasks = [], currentUserId, 
                     </Typography>
                 </DialogContent>
                 <DialogActions sx={{ px: 3, pb: 2 }}>
-                    <Button onClick={handleDeleteClose} variant="outlined" color="inherit">Cancel</Button>
-                    <Button onClick={handleDeleteConfirm} variant="contained" color="error" disabled={loading}>
-                        {loading ? 'Deleting...' : 'Delete Task'}
+                    <Button onClick={handleDeleteClose} variant="outlined" color="inherit" disabled={loading}>Cancel</Button>
+                    <Button onClick={handleDeleteConfirm} variant="contained" color="error" disabled={loading} sx={{ position: 'relative' }}>
+                        {loading && <CircularProgress size={24} sx={{ position: 'absolute', left: 12 }} />}
+                        <span style={{ visibility: loading ? 'hidden' : 'visible' }}>Delete Task</span>
                     </Button>
                 </DialogActions>
             </Dialog>
 
-            <Fab
-                color="primary"
-                aria-label="add"
-                onClick={handleClickOpen}
-                sx={{
-                    position: 'fixed',
-                    bottom: 32,
-                    right: 32,
-                }}
-            >
-                <AddIcon />
-            </Fab>
+            {isAdmin && (
+                <Fab
+                    color="primary"
+                    aria-label="add"
+                    onClick={handleClickOpen}
+                    sx={{
+                        position: 'fixed',
+                        bottom: 32,
+                        right: 32,
+                    }}
+                >
+                    <AddIcon />
+                </Fab>
+            )}
 
             <Snackbar
                 open={toast.open}

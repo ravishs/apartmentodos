@@ -27,6 +27,7 @@ import {
     People as PeopleIcon,
     Phone as PhoneIcon,
     Menu as MenuIcon,
+    Campaign as CampaignIcon,
 } from '@mui/icons-material'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
@@ -181,7 +182,7 @@ export default function DashboardLayoutContent({ children, user, signout }) {
                             <ListItem disablePadding>
                                 <Link href="/" passHref style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
                                     <ListItemButton selected={pathname === '/'} sx={selectedStyle}>
-                                        <ListItemIcon>
+                                        <ListItemIcon sx={{ minWidth: 34, mr: 0.5 }}>
                                             <DashboardIcon />
                                         </ListItemIcon>
                                         <ListItemText primary="Dashboard" />
@@ -191,7 +192,7 @@ export default function DashboardLayoutContent({ children, user, signout }) {
                             <ListItem disablePadding>
                                 <Link href="/pending-builder" passHref style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
                                     <ListItemButton selected={pathname === '/pending-builder'} sx={selectedStyle}>
-                                        <ListItemIcon>
+                                        <ListItemIcon sx={{ minWidth: 34, mr: 0.5 }}>
                                             <ConstructionIcon />
                                         </ListItemIcon>
                                         <ListItemText primary="Pending from Builder" />
@@ -201,7 +202,7 @@ export default function DashboardLayoutContent({ children, user, signout }) {
                             <ListItem disablePadding>
                                 <Link href="/wishlist" passHref style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
                                     <ListItemButton selected={pathname === '/wishlist'} sx={selectedStyle}>
-                                        <ListItemIcon>
+                                        <ListItemIcon sx={{ minWidth: 34, mr: 0.5 }}>
                                             <FavoriteIcon />
                                         </ListItemIcon>
                                         <ListItemText primary="Wishlist" />
@@ -211,7 +212,7 @@ export default function DashboardLayoutContent({ children, user, signout }) {
                             <ListItem disablePadding>
                                 <Link href="/residents" passHref style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
                                     <ListItemButton selected={pathname === '/residents'} sx={selectedStyle}>
-                                        <ListItemIcon>
+                                        <ListItemIcon sx={{ minWidth: 34, mr: 0.5 }}>
                                             <PeopleIcon />
                                         </ListItemIcon>
                                         <ListItemText primary="Residents" />
@@ -221,10 +222,20 @@ export default function DashboardLayoutContent({ children, user, signout }) {
                             <ListItem disablePadding>
                                 <Link href="/emergency-contacts" passHref style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
                                     <ListItemButton selected={pathname === '/emergency-contacts'} sx={selectedStyle}>
-                                        <ListItemIcon>
+                                        <ListItemIcon sx={{ minWidth: 34, mr: 0.5 }}>
                                             <PhoneIcon />
                                         </ListItemIcon>
                                         <ListItemText primary="Emergency contacts" />
+                                    </ListItemButton>
+                                </Link>
+                            </ListItem>
+                            <ListItem disablePadding>
+                                <Link href="/announcements" passHref style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
+                                    <ListItemButton selected={pathname === '/announcements'} sx={selectedStyle}>
+                                        <ListItemIcon sx={{ minWidth: 34, mr: 0.5 }}>
+                                            <CampaignIcon />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Announcements" />
                                     </ListItemButton>
                                 </Link>
                             </ListItem>
@@ -245,53 +256,63 @@ export default function DashboardLayoutContent({ children, user, signout }) {
                         }}
                     >
                         <List disablePadding>
-                            <ListItem disablePadding>
+                            <ListItem disablePadding sx={{ pt: 2, pb:1}}>
                                 <Link href="/" passHref style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
                                     <ListItemButton selected={pathname === '/'} sx={selectedStyle}>
-                                        <ListItemIcon>
+                                        <ListItemIcon sx={{ minWidth: 40, mr: 0 }}>
                                             <DashboardIcon />
                                         </ListItemIcon>
                                         <ListItemText primary="Dashboard" />
                                     </ListItemButton>
                                 </Link>
                             </ListItem>
-                            <ListItem disablePadding>
+                            <ListItem disablePadding sx={{ pb:1}}>
                                 <Link href="/pending-builder" passHref style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
                                     <ListItemButton selected={pathname === '/pending-builder'} sx={selectedStyle}>
-                                        <ListItemIcon>
+                                        <ListItemIcon sx={{ minWidth: 40, mr: 0 }}>
                                             <ConstructionIcon />
                                         </ListItemIcon>
                                         <ListItemText primary="Pending from Builder" />
                                     </ListItemButton>
                                 </Link>
                             </ListItem>
-                            <ListItem disablePadding>
+                            <ListItem disablePadding sx={{ pb:1}}>
                                 <Link href="/wishlist" passHref style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
                                     <ListItemButton selected={pathname === '/wishlist'} sx={selectedStyle}>
-                                        <ListItemIcon>
+                                        <ListItemIcon sx={{ minWidth: 40, mr: 0 }}>
                                             <FavoriteIcon />
                                         </ListItemIcon>
                                         <ListItemText primary="Wishlist" />
                                     </ListItemButton>
                                 </Link>
                             </ListItem>
-                            <ListItem disablePadding>
+                            <ListItem disablePadding sx={{ pb:1}}>
                                 <Link href="/residents" passHref style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
                                     <ListItemButton selected={pathname === '/residents'} sx={selectedStyle}>
-                                        <ListItemIcon>
+                                        <ListItemIcon sx={{ minWidth: 40, mr: 0 }}>
                                             <PeopleIcon />
                                         </ListItemIcon>
                                         <ListItemText primary="Residents" />
                                     </ListItemButton>
                                 </Link>
                             </ListItem>
-                            <ListItem disablePadding>
+                            <ListItem disablePadding sx={{ pb:1}}>
                                 <Link href="/emergency-contacts" passHref style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
                                     <ListItemButton selected={pathname === '/emergency-contacts'} sx={selectedStyle}>
-                                        <ListItemIcon>
+                                        <ListItemIcon sx={{ minWidth: 40, mr: 0 }}>
                                             <PhoneIcon />
                                         </ListItemIcon>
                                         <ListItemText primary="Emergency contacts" />
+                                    </ListItemButton>
+                                </Link>
+                            </ListItem>
+                            <ListItem disablePadding>
+                                <Link href="/announcements" passHref style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
+                                    <ListItemButton selected={pathname === '/announcements'} sx={selectedStyle}>
+                                        <ListItemIcon sx={{ minWidth: 40, mr: 0 }}>
+                                            <CampaignIcon />
+                                        </ListItemIcon>
+                                        <ListItemText primary="Announcements" />
                                     </ListItemButton>
                                 </Link>
                             </ListItem>
@@ -308,7 +329,7 @@ export default function DashboardLayoutContent({ children, user, signout }) {
             {/* Footer */}
             <Box component="footer" sx={{ p: 3, textAlign: 'center', borderTop: 1, borderColor: 'divider', bgcolor: 'grey.50' }}>
                 <Typography variant="body2" color="text.secondary">
-                    &copy; {new Date().getFullYear()} Mahaveer Sitara. All rights reserved.
+                    &copy; {new Date().getFullYear()} Mahaveer Sitara Owner's Welfare Association. All rights reserved.
                 </Typography>
             </Box>
         </Box>

@@ -39,6 +39,7 @@ export default function ResidentsTable({ initialResidents = [], currentUserRole 
     const [open, setOpen] = useState(false)
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
+    const [searchQuery, setSearchQuery] = useState('')
 
     const [selectedUser, setSelectedUser] = useState(null)
     const [editOpen, setEditOpen] = useState(false)
@@ -153,6 +154,16 @@ export default function ResidentsTable({ initialResidents = [], currentUserRole 
         }
     }
 
+    // Filter residents based on search query
+    const filteredResidents = initialResidents.filter(resident => {
+        const query = searchQuery.toLowerCase()
+        return (
+            resident.name.toLowerCase().includes(query) ||
+            resident.email.toLowerCase().includes(query) ||
+            resident.phone.toLowerCase().includes(query)
+        )
+    })
+
     return (
         <Box>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 3, pt: 2 }}>
@@ -160,6 +171,15 @@ export default function ResidentsTable({ initialResidents = [], currentUserRole 
                     Residents Directory
                 </Typography>
             </Box>
+
+            <TextField
+                placeholder="Search by name, email, or mobile number..."
+                variant="outlined"
+                fullWidth
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                sx={{ mb: 3 }}
+            />
 
             <TableContainer component={Paper} elevation={2} sx={{ mt: 3 }}>
                 <Table sx={{ minWidth: 650 }} aria-label="residents table">
@@ -174,7 +194,7 @@ export default function ResidentsTable({ initialResidents = [], currentUserRole 
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {initialResidents.map((resident) => (
+                        {filteredResidents.map((resident) => (
                             <TableRow
                                 key={resident.id}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -252,10 +272,12 @@ export default function ResidentsTable({ initialResidents = [], currentUserRole 
                                 </TableCell>
                             </TableRow>
                         ))}
-                        {initialResidents.length === 0 && (
+                        {filteredResidents.length === 0 && (
                             <TableRow>
                                 <TableCell colSpan={5} align="center" sx={{ py: 4 }}>
-                                    <Typography color="text.secondary">No residents found.</Typography>
+                                    <Typography color="text.secondary">
+                                        {searchQuery ? 'No residents match your search.' : 'No residents found.'}
+                                    </Typography>
                                 </TableCell>
                             </TableRow>
                         )}
@@ -414,6 +436,21 @@ export default function ResidentsTable({ initialResidents = [], currentUserRole 
                             >
                                 <MenuItem value="resident">Resident</MenuItem>
                                 <MenuItem value="admin">Admin</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <FormControl fullWidth margin="dense" sx={{ mb: 2 }}>
+                            <InputLabel id="edit-status-label">Status</InputLabel>
+                            <Select
+                                labelId="edit-status-label"
+                                id="status"
+                                name="status"
+                                label="Status"
+                                defaultValue={selectedUser?.status || 'Active'}
+                                disabled={currentUserRole !== 'admin'}
+                            >
+                                <MenuItem value="Active">Active</MenuItem>
+                                <MenuItem value="Pending">Pending</MenuItem>
+                                <MenuItem value="Approved">Approved</MenuItem>
                             </Select>
                         </FormControl>
                         <TextField

@@ -1,4 +1,8 @@
 
+export const metadata = {
+  title: "Dashboard | Mahaveer Sitara Owner's Welfare Association",
+}
+
 import { createClient } from '@/utils/supabase/server'
 import { createAdminClient } from '@/utils/supabase/admin'
 import { redirect } from 'next/navigation'

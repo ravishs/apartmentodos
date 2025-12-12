@@ -1,3 +1,7 @@
+export const metadata = {
+    title: "Profile | Mahaveer Sitara Owner's Welfare Association",
+}
+
 import DashboardLayout from '@/components/Dashboard/DashboardLayout'
 import ProfileForm from '@/components/Profile/ProfileForm'
 import { createClient } from '@/utils/supabase/server'

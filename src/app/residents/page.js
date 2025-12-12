@@ -1,4 +1,8 @@
 
+export const metadata = {
+    title: "Residents | Mahaveer Sitara Owner's Welfare Association",
+}
+
 import DashboardLayout from '@/components/Dashboard/DashboardLayout'
 import ResidentsTable from '@/components/Residents/ResidentsTable'
 import { createAdminClient } from '@/utils/supabase/admin'
